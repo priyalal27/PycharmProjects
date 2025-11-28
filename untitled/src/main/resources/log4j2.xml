@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Log4j2 Configuration for Selenium TestNG Allure Framework
+    This configuration provides comprehensive logging for test automation
+-->
+<Configuration status="WARN">
+    <!-- Properties section for reusable values -->
+    <Properties>
+        <!-- Log file directory -->
+        <Property name="LOG_DIR">logs</Property>
+        
+        <!-- Log file name pattern -->
+        <Property name="LOG_FILE">automation</Property>
+        
+        <!-- Log pattern for console output -->
+        <Property name="CONSOLE_LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level} [%t] %style{%logger{36}}{cyan} - %msg%n%throwable
+        </Property>
+        
+        <!-- Log pattern for file output -->
+        <Property name="FILE_LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %logger{36} - %msg%n%throwable
+        </Property>
+        
+        <!-- Max file size before rollover -->
+        <Property name="MAX_FILE_SIZE">10MB</Property>
+        
+        <!-- Maximum number of backup files to keep -->
+        <Property name="MAX_BACKUP_FILES">10</Property>
+    </Properties>
+    
+    <!-- Appenders section -->
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${CONSOLE_LOG_PATTERN}"/>
+            <!-- Only show INFO and above on console -->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+        </Console>
+        
+        <!-- File Appender for all logs -->
+        <RollingFile name="FileAppender" 
+                     fileName="${LOG_DIR}/${LOG_FILE}.log"
+                     filePattern="${LOG_DIR}/${LOG_FILE}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}"/>
+            <Policies>
+                <!-- Rollover daily -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <!-- Rollover when file size reaches limit -->
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+            </Policies>
+            <!-- Keep maximum backup files -->
+            <DefaultRolloverStrategy max="${MAX_BACKUP_FILES}"/>
+        </RollingFile>
+        
+        <!-- File Appender for ERROR logs only -->
+        <RollingFile name="ErrorFileAppender" 
+                     fileName="${LOG_DIR}/${LOG_FILE}-error.log"
+                     filePattern="${LOG_DIR}/${LOG_FILE}-error-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}"/>
+            <!-- Only ERROR and FATAL levels -->
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${MAX_BACKUP_FILES}"/>
+        </RollingFile>
+        
+        <!-- File Appender for Test logs (INFO and above) -->
+        <RollingFile name="TestFileAppender" 
+                     fileName="${LOG_DIR}/${LOG_FILE}-test.log"
+                     filePattern="${LOG_DIR}/${LOG_FILE}-test-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}"/>
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${MAX_BACKUP_FILES}"/>
+        </RollingFile>
+        
+        <!-- File Appender for DEBUG logs (useful for troubleshooting) -->
+        <RollingFile name="DebugFileAppender" 
+                     fileName="${LOG_DIR}/${LOG_FILE}-debug.log"
+                     filePattern="${LOG_DIR}/${LOG_FILE}-debug-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}"/>
+            <!-- All levels including DEBUG -->
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+        
+        <!-- Async Appender for better performance -->
+        <AsyncRoot level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+            <AppenderRef ref="TestFileAppender"/>
+        </AsyncRoot>
+    </Appenders>
+    
+    <!-- Loggers section -->
+    <Loggers>
+        <!-- Framework package loggers -->
+        <Logger name="com.framework" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+            <AppenderRef ref="TestFileAppender"/>
+        </Logger>
+        
+        <!-- Test package loggers -->
+        <Logger name="com.framework.tests" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestFileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+        
+        <!-- Page objects logger -->
+        <Logger name="com.framework.pages" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+        
+        <!-- Utils logger -->
+        <Logger name="com.framework.utils" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+        
+        <!-- Base classes logger -->
+        <Logger name="com.framework.base" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+        
+        <!-- Selenium WebDriver logger (reduce verbosity) -->
+        <Logger name="org.openqa.selenium" level="WARN" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+        
+        <!-- TestNG logger -->
+        <Logger name="org.testng" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="TestFileAppender"/>
+        </Logger>
+        
+        <!-- Allure logger -->
+        <Logger name="io.qameta.allure" level="INFO" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        
+        <!-- WebDriverManager logger (reduce verbosity) -->
+        <Logger name="io.github.bonigarcia.wdm" level="WARN" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        
+        <!-- Apache HTTP Client logger (reduce verbosity) -->
+        <Logger name="org.apache.http" level="WARN" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        
+        <!-- Netty logger (used by Selenium Grid) -->
+        <Logger name="io.netty" level="WARN" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        
+        <!-- Root logger configuration -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>

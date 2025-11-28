@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<suite name="MyParamterTests">
+    <test name="MyTest">
+        <classes>
+            <class name="com.demo.testngsel.demo_test2"/>
+        </classes>
+    </test>
+    <parameter name="username" value="Admin"/>
+    <parameter name="password" value="admin123"/>
+</suite>

@@ -1,0 +1,5 @@
+Java does not support multiple inheritance with classes to avoid ambiguity, 
+but it supports multiple inheritance using interfaces.
+
+
+

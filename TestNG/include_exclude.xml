@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<suite name="MySuite" parallel="methods" thread-count="4">
+    <test name="MyBasicTests">
+        <classes>
+            <class name="com.dropdowns.SeleniumIntro">
+                <methods>
+                    <include name="test_alerts"/>
+                    <exclude name="dropdown2"/>
+                </methods>
+            </class>
+            <class name="com.Actions.ActionsClass"/>
+        </classes>
+    </test>
+</suite>

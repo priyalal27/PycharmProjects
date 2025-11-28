@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--
+    TestNG Suite Configuration for Selenium TestNG Allure Framework
+    This configuration defines test suites, groups, and execution parameters
+-->
+
+<suite name="SeleniumTestNGAllureFrameworkSuite" 
+       verbose="1" 
+       parallel="methods" 
+       thread-count="3" 
+       data-provider-thread-count="2"
+       time-out="300000">
+    
+    <!-- Suite level parameters -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="dev"/>
+    <parameter name="headless" value="false"/>
+    
+    <!-- Suite level listeners -->
+    <listeners>
+        <listener class-name="com.framework.utils.TestListener"/>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+    
+    <!-- Groups definition -->
+    <groups>
+        <define name="regression">
+            <include name="smoke"/>
+            <include name="login"/>
+            <include name="dashboard"/>
+            <include name="search"/>
+            <include name="navigation"/>
+            <include name="ui"/>
+        </define>
+        
+        <define name="smoke">
+            <include name="login"/>
+            <include name="dashboard"/>
+        </define>
+        
+        <define name="critical">
+            <include name="smoke"/>
+        </define>
+        
+        <run>
+            <include name="regression"/>
+        </run>
+    </groups>
+    
+    <!-- Smoke Test Suite - Critical functionality -->
+    <test name="SmokeTests" 
+          enabled="true" 
+          preserve-order="true"
+          group-by-instances="true">
+        
+        <parameter name="test-type" value="smoke"/>
+        
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.LoginTest">
+                <methods>
+                    <include name="testSuccessfulLogin"/>
+                    <include name="testLoginPageElements"/>
+                </methods>
+            </class>
+            
+            <class name="com.framework.tests.DashboardTest">
+                <methods>
+                    <include name="testDashboardPageLoading"/>
+                    <include name="testDashboardNavigation"/>
+                    <include name="testLogoutFunctionality"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Login Test Suite - Authentication related tests -->
+    <test name="LoginTests" 
+          enabled="true" 
+          preserve-order="false"
+          group-by-instances="false">
+        
+        <parameter name="test-type" value="login"/>
+        
+        <groups>
+            <run>
+                <include name="login"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.LoginTest"/>
+        </classes>
+    </test>
+    
+    <!-- Dashboard Test Suite - Dashboard functionality tests -->
+    <test name="DashboardTests" 
+          enabled="true" 
+          preserve-order="false"
+          group-by-instances="false">
+        
+        <parameter name="test-type" value="dashboard"/>
+        
+        <groups>
+            <run>
+                <include name="dashboard"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.DashboardTest"/>
+        </classes>
+    </test>
+    
+    <!-- Regression Test Suite - All tests -->
+    <test name="RegressionTests" 
+          enabled="false" 
+          preserve-order="false"
+          group-by-instances="false">
+        
+        <parameter name="test-type" value="regression"/>
+        
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.LoginTest"/>
+            <class name="com.framework.tests.DashboardTest"/>
+        </classes>
+    </test>
+    
+    <!-- Negative Test Suite - Error scenarios -->
+    <test name="NegativeTests" 
+          enabled="false" 
+          preserve-order="false"
+          group-by-instances="false">
+        
+        <parameter name="test-type" value="negative"/>
+        
+        <groups>
+            <run>
+                <include name="negative"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.LoginTest">
+                <methods>
+                    <include name="testInvalidLogin"/>
+                    <include name="testLoginWithMultipleCredentials"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- UI Test Suite - User interface tests -->
+    <test name="UITests" 
+          enabled="false" 
+          preserve-order="false"
+          group-by-instances="false">
+        
+        <parameter name="test-type" value="ui"/>
+        
+        <groups>
+            <run>
+                <include name="ui"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.LoginTest">
+                <methods>
+                    <include name="testLoginPageElements"/>
+                    <include name="testInputFieldClear"/>
+                </methods>
+            </class>
+            
+            <class name="com.framework.tests.DashboardTest">
+                <methods>
+                    <include name="testDashboardNavigation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Search Test Suite - Search functionality tests -->
+    <test name="SearchTests" 
+          enabled="false" 
+          preserve-order="false"
+          group-by-instances="false">
+        
+        <parameter name="test-type" value="search"/>
+        
+        <groups>
+            <run>
+                <include name="search"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.DashboardTest">
+                <methods>
+                    <include name="testDashboardSearch"/>
+                    <include name="testSearchFieldOperations"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <!-- Performance Test Suite - Performance related tests -->
+    <test name="PerformanceTests" 
+          enabled="false" 
+          preserve-order="false"
+          group-by-instances="false">
+        
+        <parameter name="test-type" value="performance"/>
+        
+        <groups>
+            <run>
+                <include name="performance"/>
+            </run>
+        </groups>
+        
+        <classes>
+            <class name="com.framework.tests.DashboardTest">
+                <methods>
+                    <include name="testDashboardPerformance"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
+
+<!--
+    Additional Suite Configurations Examples:
+    
+    1. Cross-Browser Testing Suite:
+    You can create separate suites for different browsers by overriding parameters:
+    
+    <suite name="ChromeTestSuite">
+        <parameter name="browser" value="chrome"/>
+        <test name="ChromeTests">
+            // ... test classes
+        </test>
+    </suite>
+    
+    <suite name="FirefoxTestSuite">
+        <parameter name="browser" value="firefox"/>
+        <test name="FirefoxTests">
+            // ... test classes
+        </test>
+    </suite>
+    
+    2. Environment-specific Testing:
+    
+    <suite name="DevEnvironmentSuite">
+        <parameter name="environment" value="dev"/>
+        <parameter name="base.url" value="https://dev.example.com"/>
+        // ... tests
+    </suite>
+    
+    <suite name="StagingEnvironmentSuite">
+        <parameter name="environment" value="staging"/>
+        <parameter name="base.url" value="https://staging.example.com"/>
+        // ... tests
+    </suite>
+    
+    3. Parallel Execution Examples:
+    
+    parallel="methods" - Run test methods in parallel
+    parallel="classes" - Run test classes in parallel  
+    parallel="tests" - Run test tags in parallel
+    parallel="instances" - Run test instances in parallel
+    
+    4. Data Provider Thread Count:
+    data-provider-thread-count="5" - Number of threads for data provider methods
+    
+    5. Method Interceptors:
+    <method-interceptors>
+        <method-interceptor class-name="com.framework.utils.MethodInterceptor"/>
+    </method-interceptors>
+-->

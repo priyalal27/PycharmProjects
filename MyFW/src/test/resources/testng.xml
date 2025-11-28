@@ -1,0 +1,34 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="MyTestcases"
+       verbose="1"
+       parallel="methods"
+       thread-count="3"
+       data-provider-thread-count="2"
+       time-out="300000">
+
+    <!-- Groups must come first -->
+    <groups>
+        <define name="regression">
+            <include name="smoke"/>
+        </define>
+    </groups>
+
+    <!-- Parameters -->
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="dev"/>
+    <parameter name="headless" value="false"/>
+
+    <!-- Listeners -->
+    <listeners>
+        <listener class-name="com.framework.utils.TestListener"/>
+    </listeners>
+
+    <!-- Define your tests here -->
+    <test name="Regression Tests">
+        <classes>
+            <class name="com.framework.tests.LoginTest"/>
+        </classes>
+    </test>
+
+</suite>

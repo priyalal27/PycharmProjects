@@ -1,0 +1,18 @@
+2025-09-19 06:40:33.897 INFO  [main] com.framework.tests.BaseTest - === Starting Test Suite ===
+2025-09-19 06:40:33.899 INFO  [main] com.framework.tests.BaseTest - Test Environment: dev
+2025-09-19 06:40:33.899 INFO  [main] com.framework.tests.BaseTest - Base URL: https://example.com
+2025-09-19 06:40:33.899 INFO  [main] com.framework.tests.BaseTest - Browser: chrome
+2025-09-19 06:40:33.900 INFO  [main] com.framework.tests.BaseTest - Headless Mode: false
+2025-09-19 06:40:33.900 INFO  [main] com.framework.tests.BaseTest - Thread Count: 1
+2025-09-19 06:40:33.900 INFO  [main] com.framework.tests.BaseTest - === Suite Setup Completed ===
+2025-09-19 06:40:33.909 INFO  [main] com.framework.tests.BaseTest - Setting up test class: LoginTest
+2025-09-19 06:40:33.909 INFO  [main] com.framework.tests.LoginTest - Login Test class setup completed
+2025-09-19 06:40:33.914 INFO  [main] com.framework.tests.BaseTest - Setting up test: invoke
+2025-09-19 06:40:40.196 INFO  [main] com.framework.tests.BaseTest - WebDriver initialized successfully for test: invoke
+2025-09-19 06:40:41.619 INFO  [main] com.framework.tests.BaseTest - Navigated to base URL: https://example.com
+2025-09-19 06:40:46.688 INFO  [main] com.framework.tests.BaseTest - Test Step: Starting successful login test
+2025-09-19 06:41:07.057 INFO  [main] com.framework.tests.BaseTest - Tearing down test: invoke
+2025-09-19 06:41:07.165 INFO  [main] com.framework.tests.BaseTest - WebDriver quit successfully for test: invoke
+2025-09-19 06:41:07.165 INFO  [main] com.framework.tests.BaseTest - Test teardown completed: invoke
+2025-09-19 06:41:07.166 INFO  [main] com.framework.tests.BaseTest - Tearing down test class: LoginTest
+2025-09-19 06:41:12.188 INFO  [main] com.framework.tests.BaseTest - === Test Suite Completed ===

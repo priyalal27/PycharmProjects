@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<suite name="DependsON">
+    <test name="DependsONTest">
+        <groups>
+            <dependencies>
+                <group name="app_setup" depends-on="db_setup"/>
+                <group name="functional" depends-on="app_setup"/>
+                <group name="ui" depends-on="functional"/>
+                <group name="cleanup" depends-on="ui functional"/>
+            </dependencies>
+        </groups>
+        <classes>
+            <class name="com.misc.dependsOnGroupMethod"/>
+        </classes>
+    </test>
+
+</suite>

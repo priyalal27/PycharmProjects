@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<suite name="MyGroups">
+    <test name="MyTest">
+        <groups>
+            <run>
+                <include name="smoke"/>
+                <include name="sanity"/>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.dropdowns.SeleniumIntro"/>
+            <class name="com.demo.testngsel.ExcludeDemo"/>
+        </classes>
+    </test>
+</suite>
